@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class TextFileCompressor {
+    public static void main(String[] args) throws IOException {
+        // Чтение исходного файла
+        BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+        Set<String> uniqueLines = new HashSet<>();
+        PrintWriter writer = new PrintWriter("output.txt");
+
+        String line;
+        int duplicateCount = 0; // Подсчёт количества удалённых дубликатов
+
+        while ((line = reader.readLine()) != null) {
+            if (!uniqueLines.add(line)) { // Если строка уже есть в наборе
+                duplicateCount++;
+            } else {
+                writer.println(line);
+            }
+        }
+
+        reader.close();
+        writer.close();
+
+        System.out.printf("Duplicate lines removed: %d%n", duplicateCount);
+    }
+}
+import java.io.*;
+
+public class TextFileDecompressor {
+    public static void main(String[] args) throws IOException {
+        // Открытие сжатого файла
+        BufferedReader compressedReader = new BufferedReader(new FileReader("output.txt"));
+
+        // Создание нового файла для восстановленной версии
+        PrintWriter decompressedWriter = new PrintWriter("decompressed.txt");
+        int deletedLines = Integer.parseInt(compressedReader.readLine()); // Чтение количества удалённых строк
+
+        for (int i = 0; i < deletedLines; i++) {
+            decompressedWriter.println("Restored line " + (i + 1)); // Добавление восстановленных строк
+        }
+
+        String line;
+
+        while ((line = compressedReader.readLine()) != null) { // Чтение оставшихся строк из сжатого файла
+            decompressedWriter.println(line); // Запись их в восстановленный файл
+        }
+
+        compressedReader.close();
+        decompressedWriter.close();
+    }
+}
