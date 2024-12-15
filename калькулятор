@@ -1,0 +1,31 @@
+public class Calculator {
+    public static void main(String[] args) {
+        // Получение строки с выражением
+        String expression = "2 * 6.5";
+
+        // Выполнение вычисления
+        double result = calculate(expression);
+
+        // Вывод результата на консоль
+        System.out.println("Результат: " + result);
+    }
+
+    private static double calculate(String expression) {
+        // Разделение строки на операнды и оператор
+        String[] parts = expression.split(" ");
+        double num1 = Double.parseDouble(parts[0]);
+        String operator = parts[1];
+        double num2 = Double.parseDouble(parts[2]);
+
+        // Выполнение соответствующего арифметического действия
+        if (operator.equals("+")) {
+            return num1 + num2;
+        } else if (operator.equals("-")) {
+            return num1 - num2;
+        } else if (operator.equals("*")) {
+            return num1 * num2;
+        } else { // Деление
+            return num1 / num2;
+        }
+    }
+}
