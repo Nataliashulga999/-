@@ -1,0 +1,135 @@
+abstract class Animal {
+    protected String name;
+    protected int weight;
+    protected int foodRequiredPerDay;
+
+    public Animal(String name, int weight, int foodRequiredPerDay) {
+        this.name = name;
+        this.weight = weight;
+        this.foodRequiredPerDay = foodRequiredPerDay;
+    }
+
+    public abstract void eat(Plant[] plants);
+    public abstract void reproduce(Animal mate);
+    public abstract void move(Location[] locations);
+    public abstract void die();
+
+    public String getName() {
+        return name;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getFoodRequiredPerDay() {
+        return foodRequiredPerDay;
+    }
+}
+
+interface Location {
+    public boolean isValidMove(Animal animal);
+}
+
+class Plant {
+    private String type;
+
+    public Plant(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+}
+
+class Herbivore extends Animal {
+    public Herbivore(String name, int weight, int foodRequiredPerDay) {
+        super(name, weight, foodRequiredPerDay);
+    }
+
+    @Override
+    public void eat(Plant[] plants) {
+        for (Plant plant : plants) {
+            if (plant.getType().equals("Grass")) {
+                System.out.println(getName() + " eating grass");
+            }
+        }
+    }
+
+    @Override
+    public void reproduce(Animal mate) {
+        if (mate instanceof Herbivore) {
+            System.out.println(getName() + " reproduced with " + mate.getName());
+        }
+    }
+
+    @Override
+    public void move(Location[] locations) {
+        for (Location location : locations) {
+            if (location.isValidMove(this)) {
+                System.out.println(getName() + " moved to " + location.toString());
+            }
+        }
+    }
+
+    @Override
+    public void die() {
+        System.out.println(getName() + " died");
+    }
+}
+
+class Carnivore extends Animal {
+    public Carnivore(String name, int weight, int foodRequiredPerDay) {
+        super(name, weight, foodRequiredPerDay);
+    }
+
+    @Override
+    public void eat(Plant[] plants) {
+        for (Plant plant : plants) {
+            if (plant.getType().equals("Meat")) {
+                System.out.println(getName() + " eating meat");
+            }
+        }
+    }
+
+    @Override
+    public void reproduce(Animal mate) {
+        if (mate instanceof Carnivore) {
+            System.out.println(getName() + " reproduced with " + mate.getName());
+        }
+    }
+
+    @Override
+    public void move(Location[] locations) {
+        for (Location location : locations) {
+            if (location.isValidMove(this)) {
+                System.out.println(getName() + " moved to " + location.toString());
+            }
+        }
+    }
+
+    @Override
+    public void die() {
+        System.out.println(getName() + " died");
+    }
+}
+
+class Wolf extends Carnivore {
+    public Wolf(String name, int weight, int foodRequiredPerDay) {
+        super(name, weight, foodRequiredPerDay);
+    }
+
+    @Override
+    public void eat(Plant[] plants) {
+        for (Plant plant : plants) {
+            if (plant.getType().equals("Meat")) {
+                System.out.println(getName() + " eating meat");
+            }
+        }
+    }
+
+    @Override
+    public void reproduce(Animal mate) {
+        if (mate instanceof Wolf) {
+            System.out.println(getName() + " reproduced with " + mate.getName())
