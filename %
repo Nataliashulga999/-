@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+public class CompoundInterest {
+    public static void main(String[] args) {
+        // Создание объекта для хранения данных
+        Deposit deposit = new Deposit();
+
+        // Ввод данных от пользователя
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите начальную сумму депозита: ");
+        double principal = scanner.nextDouble();
+        System.out.print("Введите процентную ставку: ");
+        double rate = scanner.nextDouble();
+        System.out.print("Введите количество периодов начисления процентов: ");
+        int periods = scanner.nextInt();
+        System.out.print("Введите конечную сумму: ");
+        double target = scanner.nextDouble();
+
+        // Расчёт сложного процента
+        deposit.calculateCompoundInterest(principal, rate, periods);
+
+        // Вывод результатов
+        System.out.println("Начальная сумма: " + principal);
+        System.out.println("Процентная ставка: " + rate + "%");
+        System.out.println("Количество периодов: " + periods + " раз(а)");
+        System.out.println("Общая сумма после начисления процентов: " + deposit.getTotal());
+
+        // Вычисление необходимого процента
+        if (target > principal) {
+            deposit.calculateRequiredRate(principal, target, periods);
+            System.out.println("Необходимая процентная ставка для достижения цели: " + deposit.getRate() + "%");
+        } else {
+            System.out.println("Некорректные данные. Введите целевую сумму больше начальной.");
+        }
+    }
+}
+
+class Deposit {
+    private double principal; // Начальная сумма депозита
+    private double rate; // Процентная ставка
+    private int periods; // Количество периодов начисления процентов
+    private double total; // Общая сумма после начисления процентов
+
+    // Конструктор
+    public Deposit() {
+        this.principal = 0;
+        this.rate = 0;
+        this.periods = 0;
+        this.total = 0;
+    }
+
+    // Метод для расчёта сложного процента
+    public void calculateCompoundInterest(double principal, double rate, int periods) {
+        if (principal > 0 && rate > 0 && periods > 0) {
+            this.principal = principal;
+            this.rate = rate / 100;
+            this.periods = periods;
+
+            for (int i = 1; i <= periods; i++) {
+                this.total += principal * (1 + rate);
+                principal = this.total;
+            }
+        } else {
+            System.out.println("Ошибка: введите положительные значения для начальной суммы, процентной ставки и количества периодов.");
+        }
+    }
+
+    // Методы для получения данных
+    public double getPrincipal() {
+        return principal;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public int getPeriods() {
+        return periods;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    // Метод для вычисления необходимого процента
+    public void calculateRequiredRate(double principal, double target, int periods) {
+        if (target > principal && periods > 0) {
+            double current = principal;
+           for (int i = 1; i < periods; i++) {
+               current = current * (1 + (rate / 100));
+               if (current >= target) {
+                   this.rate = (target / current) - 1;
+                   break;
+               }
+           }
+       } else {
