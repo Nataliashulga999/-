@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class LeapYear {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите год: ");
+        int year = scanner.nextInt();
+
+        try {
+            if (isLeapYear(year)) {
+                System.out.println(year + " - високосный год.");
+            } else {
+                System.out.println(year + " - не високосный год.");
+            }
+        } catch (Exception e) {
+            System.out.println("Некорректный ввод данных. Введите целое число.");
+        }
+    }
+
+    private static boolean isLeapYear(int year) throws Exception {
+        if (year % 4 == 0) { // Проверяем, делится ли год на 4 без остатка
+            return year % 100 != 0 || year % 400 == 0; // Проверяем дополнительные условия для високосного года
+        } else {
+            return false; // Если год не делится на 4, он не високосный
+        }
+    }
+}
