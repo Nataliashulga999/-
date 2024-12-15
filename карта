@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class CardDeck {
+    private List<Card> deck;
+
+    public CardDeck() {
+        this.deck = new ArrayList<>();
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
+                deck.add(new Card(rank, suit));
+            }
+        }
+    }
+
+    // Перетасовка колоды
+    public void shuffle() {
+        Collections.shuffle(deck);
+    }
+
+    // Сдача карты
+    public Card deal() {
+        if (deck.isEmpty()) {
+            throw new IllegalStateException("Колода пуста");
+        } else {
+            Card card = deck.get(0);
+            deck.remove(0);
+            return card;
+        }
+    }
+
+    // Возвращение карты в колоду
+    public boolean returnCard(Card card) {
+        if (!deck.contains(card)) {
+            throw new IllegalArgumentException("Карта не найдена в колоде");
+        } else {
+            deck.add(card);
+            return true;
+        }
+    }
+
+    // Проверка наличия карты в колоде
+    public boolean contains(Card card) {
+        return deck.contains(card);
+    }
+}
+enum Suit {
+    CLUBS, DIAMONDS, HEARTS, SPADES
+}
+
+enum Rank {
+    ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+}
+
+class Card {
+    private Rank rank;
+    private Suit suit;
+
+    public Card(Rank rank, Suit suit) {
+        this.rank = rank;
+        this.suit = suit;
+    }
